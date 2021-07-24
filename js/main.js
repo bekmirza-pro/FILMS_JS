@@ -13,18 +13,24 @@ for (var i = 0; i < films.length; i++){
     newHeading.textContent = films[i].title;
 
     var newPoster = document.createElement('img');
-    newPoster.setAttribute('width', '800');
-	newPoster.setAttribute('height', '800');
+    newPoster.setAttribute('width', '310');
+	newPoster.setAttribute('height', '310');
 	newPoster.setAttribute('src', films[i].poster);
 
     var newOverview = document.createElement('h3');
     newOverview.textContent = films[i].overview;
 
     var newData = document.createElement('p');
-    newData.textContent = new Date(films[i].release_date);
+    var releaseDay = new Date(films[i].release_date)
+    var day = String(releaseDay.getDate()).padStart(2,"0")
+    var month = String(releaseDay.getMonth()+1).padStart(2, "0");
+    var year = releaseDay.getFullYear();
+    var showDay = day + "." + month +"."+year
+    newData.textContent = showDay;
+    console.log(showDay)
 
-    var newGenres = document.createElement('h2');
-    newGenres.textContent = films[i].genres[i];
+    var newGenres = document.createElement('p');
+    newGenres.textContent = films[i].genres;
 
 
 
