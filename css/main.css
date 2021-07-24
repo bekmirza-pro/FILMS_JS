@@ -1,0 +1,36 @@
+body{
+    background-color: #333333;
+}
+
+.list{
+    width: 100%;
+    max-width: 1300px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+
+.films-item{
+    width: 100%;
+    max-width: 1000px;
+    box-shadow: 0 0 7px 5px #248ab9;
+    margin-bottom: 30px;
+    padding: 30px;
+    margin-top: 30px;
+    background-color: #333333;
+    color: rgb(124, 124, 230);
+}
+
+.heading-site{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    font-size: 58px;
+    color: blue;
+}
