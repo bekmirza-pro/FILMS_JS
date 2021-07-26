@@ -202,7 +202,7 @@ for (var i = 0; i < films.length; i++){
 }
 
 
-// console.log(genres);
+
 
 
 genersFilms(genres);
