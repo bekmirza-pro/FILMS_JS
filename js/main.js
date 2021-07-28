@@ -1,7 +1,6 @@
-var elList = document.querySelector('.list');
+// var elList = document.querySelector('.list');
 // var elForm = document.querySelector('.form');
 // var elSelect = elForm.querySelector('.select');
-
 
 // var genres = []
 // function generatedGenres(genre){
@@ -9,19 +8,6 @@ var elList = document.querySelector('.list');
 //     genres.push(genre)
 // }
 // }
-
-
-// // function genersFilms(genres) {
-// // 	for (genre of genres) {
-// // 		var newOp = document.createElement('option');
-
-// // 		newOp.textContent = genre;
-// // 		newOp.value = genre;
-
-// // 		elSelect.appendChild(newOp);
-// // 	}
-// // }
-
 // function genersFilms(genres) {
 // 	for (genre of  genres) {
 // 		var newOp = document.createElement('option');
@@ -30,9 +16,11 @@ var elList = document.querySelector('.list');
 // 		newOp.value = genre;
 
 // 		elSelect.appendChild(newOp);
+//         console.log(elSelect)
 // 	}
-// }
+// }   
   
+
 
 
 // function normalizedDate(time){
@@ -52,14 +40,14 @@ var elList = document.querySelector('.list');
 //         filmPoster: film.poster,
 //         filmOverview: film.overview,
 //         filmDate:normalizedDate(film.release_date),
-//         genres: film.genres,
+//         genres:film.genres,
 //     }
 
 // });
 
 
 // function renderFilms(filmsArr){
-//     filmsArr.forEach(film => {
+//     filmsArr.forEach((film) => {
         
 //     var newLi = document.createElement('li');
 //     newLi.setAttribute('class', 'films-item');
@@ -108,101 +96,100 @@ var elList = document.querySelector('.list');
 
 //     });
 // }
-
+// renderFilms( normalizedFilms);
 
 // genersFilms(genres); 
 
 // console.log(genres);
 
-// renderFilms( normalizedFilms)
-// // console.log(normalizedFilms);
-// // console.log(genres)
+// console.log(normalizedFilms);
+// console.log(genres)
 
 
 
+// *******************************************************************************************************************************************
 
 
 
+// *****************************************************************************************************************************************
+
+//*************************GET Elament from DOM *************************************
+const elMoviesList = makeElament('.movies_list');
+const elSelectGeners = makeElament('.movies_form_select')
 
 
-var elForm = document.querySelector('.form');
-var elSelect = elForm.querySelector('.select');
+// *********************Function renderFilms Geners for select********************************************
+function renderGenresSelect(films, element){
 
+    const result = [];
 
-var genres = []
-function generatedGenres(genre){
-if(!genres.includes(genre)){
-    genres.push(genre)
+    films.forEach(film => {
+        film.genres.forEach(genre => {
+            if(!result.includes(genre)){
+                result.push(genre);
+            }
+        });
+    });
+
+    element.innerHTML = null;
+    result.forEach(genre => {
+        const newOp = createDOM('option');
+        newOp.value = genre.toLowerCase();
+        newOp.textContent = genre;
+
+        element.appendChild(newOp);
+    });
 }
+
+
+function  renderGenresList(genre, newGenresList){
+    const newLi = createDOM('li');
+    newLi.textContent = genre;
+    newGenresList.appendChild(newLi);
 }
 
-function genersFilms(genres) {
-	for (genre of genres) {
-		var newOp = document.createElement('option');
-	
+function renderMovies(moviesArr){
+    moviesArr.forEach(film => {
+// ***********************createElements****************************
+
+        const newLi = createDOM('li');
+        const newId = createDOM('p');
+        const newHeading = createDOM('h2');
+        const newImg = createDOM('img');
+        const newParagraph = createDOM('p');
+        const newTime = createDOM('time');
+        const newGenresList = createDOM('ul');
+
+// *******************Setting attributess and values***************************
+        newGenresList.setAttribute('class', 'ganre-list');        
+        newLi.setAttribute('class', 'movie');
+        newId.textContent = film.id;
+        newHeading.textContent = film.title;
+        newImg.setAttribute('src', film.poster);
+        newImg.setAttribute('alt', film.title);
+        newImg.setAttribute('width', 380);
+        newImg.setAttribute('height', 470);
+        newParagraph.textContent = film.overview.split(' ').slice(0, 20).join(' ') + ' ...';
+        newTime.textContent = normalizedDate(film.release_date);
 
 
-		newOp.textContent = genre;
-		newOp.value = genre;
+        film.genres.forEach(genre => {
+            renderGenresList(genre, newGenresList);
+        });
+        
 
-		elSelect.appendChild(newOp);
-	}
-}
-  
+        newLi.appendChild(newId);
+        newLi.appendChild(newHeading);
+        newLi.appendChild(newImg);
+        newLi.appendChild(newParagraph);
+        newLi.appendChild(newTime);
+        newLi.appendChild(newGenresList);
 
-for (var i = 0; i < films.length; i++){
-    var newLi = document.createElement('li');
-	newLi.setAttribute('class', 'films-item');
 
-    var newId = document.createElement('p')
-    newId.textContent = films[i].id;
-
-    var newHeading = document.createElement('h1');
-    newHeading.textContent = films[i].title;
-
-    var newPoster = document.createElement('img');
-    newPoster.setAttribute('width', '310');
-	newPoster.setAttribute('height', '380');
-	newPoster.setAttribute('src', films[i].poster);
-
-    var newOverview = document.createElement('h3');
-    newOverview.textContent = films[i].overview;
-
-    var newData = document.createElement('time');
-    var releaseDay = new Date(films[i].release_date)
-    var day = String(releaseDay.getDate()).padStart(2,"0")
-    var month = String(releaseDay.getMonth()+1).padStart(2, "0");
-    var year = releaseDay.getFullYear();
-    var showDay = day + "." + month +"."+year
-    newData.textContent = showDay;
-    
-
-    var newGenresUl = document.createElement('ul');
-    newGenresUl.setAttribute('class', 'small-list')
-
-        films[i].genres.forEach((genre) => {
-        var newGenres = document.createElement('li');
-        newGenres.textContent = genre;
-
-        newGenresUl.appendChild(newGenres);
-            
-        generatedGenres(genre);
+        elMoviesList.appendChild(newLi);
 
     });
-    
-
-    newLi.appendChild(newId);
-    newLi.appendChild(newHeading);
-    newLi.appendChild(newPoster);
-    newLi.appendChild(newOverview);
-    newLi.appendChild(newData);
-    newLi.appendChild(newGenresUl);
-
-    elList.appendChild(newLi);
 }
 
-
-
-
-
-genersFilms(genres);
+renderGenresSelect(films, elSelectGeners);
+renderMovies(films , elMoviesList);
