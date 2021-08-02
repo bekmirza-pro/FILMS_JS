@@ -1,121 +1,14 @@
-// var elList = document.querySelector('.list');
-// var elForm = document.querySelector('.form');
-// var elSelect = elForm.querySelector('.select');
-
-// var genres = []
-// function generatedGenres(genre){
-// if(!genres.includes(genre)){
-//     genres.push(genre)
-// }
-// }
-// function genersFilms(genres) {
-// 	for (genre of  genres) {
-// 		var newOp = document.createElement('option');
-
-// 		newOp.textContent = genre;
-// 		newOp.value = genre;
-
-// 		elSelect.appendChild(newOp);
-//         console.log(elSelect)
-// 	}
-// }   
-  
-
-
-
-// function normalizedDate(time){
-//     var year = new Date(time).getFullYear();
-//     var month = String(new Date(time).getMonth() + 1).padStart(2, '0');
-//     var day = String( new Date(time).getDate()).padStart(2, '0');
-
-//     return day + '.' + month + '.' + year;
-// }
-
-
-// var normalizedFilms = films.map((film) => {
-     
-//     return{
-//         filmId: film.id,
-//         title: film.title,
-//         filmPoster: film.poster,
-//         filmOverview: film.overview,
-//         filmDate:normalizedDate(film.release_date),
-//         genres:film.genres,
-//     }
-
-// });
-
-
-// function renderFilms(filmsArr){
-//     filmsArr.forEach((film) => {
-        
-//     var newLi = document.createElement('li');
-//     newLi.setAttribute('class', 'films-item');
-
-//     // ****************createElement*******************
-
-//     var newFilmId = document.createElement('p');
-//     var newTitle = document.createElement('h1');
-//     var newImg = document.createElement('img');
-//     var newOverview = document.createElement('p');
-//     var newDateTime = document.createElement('time');
-
-// //***************value and setAttribute****************
-
-//     newFilmId.textContent = film.filmId;
-//     newTitle.textContent = film.title;
-//     newImg.setAttribute('src', film.filmPoster);
-//     newImg.setAttribute('alt', film.title);
-//     newImg.setAttribute('width', '310');
-//     newImg.setAttribute('height', '380');
-//     newOverview.textContent =film.filmOverview;
-//     newDateTime.textContent = film.filmDate;
-
-//     var newGenresUl = document.createElement('ul');
-//     newGenresUl.setAttribute('class', 'small-list');
-
-//         film.genres.forEach((genre) => {
-//         var newGenres = document.createElement('li');
-//         newGenres.textContent = genre;
-
-//         newGenresUl.appendChild(newGenres);
-
-//         generatedGenres(genre);
-//     });
-
-// // ************** Append to element *********************
-
-//     newLi.appendChild(newFilmId);
-//     newLi.appendChild(newTitle);
-//     newLi.appendChild(newImg);
-//     newLi.appendChild(newOverview);
-//     newLi.appendChild(newDateTime);
-//     newLi.appendChild(newGenresUl);
-
-//     elList.appendChild(newLi);
-
-//     });
-// }
-// renderFilms( normalizedFilms);
-
-// genersFilms(genres); 
-
-// console.log(genres);
-
-// console.log(normalizedFilms);
-// console.log(genres)
-
-
-
-// *******************************************************************************************************************************************
 
 
 
 // *****************************************************************************************************************************************
 
-//*************************GET Elament from DOM *************************************
+// *************************GET Elament from DOM *************************************
+const elForm = makeElament('.form')
+const elInputSearch = makeElament('.movies_form_input')
 const elMoviesList = makeElament('.movies_list');
-const elSelectGeners = makeElament('.movies_form_select')
+const elSelectGeners = makeElament('.movies_form_select');
+const elSelectSort = makeElament('.movies_form_select-sort');   
 
 
 // *********************Function renderFilms Geners for select********************************************
@@ -131,10 +24,9 @@ function renderGenresSelect(films, element){
         });
     });
 
-    element.innerHTML = null;
     result.forEach(genre => {
         const newOp = createDOM('option');
-        newOp.value = genre.toLowerCase();
+        newOp.value = genre;
         newOp.textContent = genre;
 
         element.appendChild(newOp);
@@ -143,12 +35,17 @@ function renderGenresSelect(films, element){
 
 
 function  renderGenresList(genre, newGenresList){
+
+  
     const newLi = createDOM('li');
     newLi.textContent = genre;
     newGenresList.appendChild(newLi);
 }
 
-function renderMovies(moviesArr){
+function renderMovies(moviesArr, element){
+
+    
+    element.innerHTML = null;
     moviesArr.forEach(film => {
 // ***********************createElements****************************
 
@@ -171,7 +68,7 @@ function renderMovies(moviesArr){
         newImg.setAttribute('height', 470);
         newParagraph.textContent = film.overview.split(' ').slice(0, 20).join(' ') + ' ...';
         newTime.textContent = normalizedDate(film.release_date);
-
+    
 
         film.genres.forEach(genre => {
             renderGenresList(genre, newGenresList);
@@ -189,7 +86,78 @@ function renderMovies(moviesArr){
         elMoviesList.appendChild(newLi);
 
     });
+    
 }
 
 renderGenresSelect(films, elSelectGeners);
 renderMovies(films , elMoviesList);
+
+
+elForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+
+    const inputSearchValue = elInputSearch.value.trim();
+    const selectGenres = elSelectGeners.value.trim();
+    const sortValue = elSelectSort.value.trim();
+
+    // console.log(sortFilms)
+    const regex = new RegExp(inputSearchValue, 'gi');   
+    const searchedFilms = films.filter(film => film.title.match(regex));
+
+    sortFilms(searchedFilms, sortValue);
+
+    let foundFilms = [];
+    if(selectGenres === 'All'){
+        foundFilms = searchedFilms;
+    } else{
+        foundFilms = searchedFilms.filter(film => film.genres.includes(selectGenres));
+    }
+    renderMovies(foundFilms, elMoviesList);
+    // renderMovies(sortedFilms, elMoviesList);    
+
+});
+
+function sortFilms(filmsArr, format){
+    if(format === 'a_z'){
+        return filmsArr.sort((a, b) => {
+            if(a.title > b.title){
+                return 1;
+            } else if(a.title < b.title){
+                return -1;
+            } else{
+                return 0;
+            }
+        });
+    } else if(format === 'z_a'){
+        return filmsArr.sort((a, b) => {
+            if(a.title > b.title){
+                return -1;
+            } else if(a.title < b.title){
+                return 1;
+            } else{
+                return 0;
+            }
+        });
+    } else if(format === 'old_new'){
+        return filmsArr.sort((a, b) => {
+            if(a.release_date > b.release_date){
+                return 1;
+            } else if(a.release_date < b.release_date){
+                return -1;
+            } else{
+                return 0;
+            }
+        });
+    } else if(format == 'new_old'){
+        return filmsArr.sort((a, b) => {
+            if(a.release_date > b.release_date){
+                return -1;
+            } else if(a.release_date < b.release_date){
+                return 1;
+            } else{
+                return 0;
+            }
+        });
+    }
+}

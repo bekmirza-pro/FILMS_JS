@@ -10,10 +10,10 @@ body {
   padding: 0;
   list-style: none;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   justify-content: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   /* align-items: center; */
   font-family: sans-serif;
 }
@@ -79,7 +79,25 @@ body {
   border: none;
   border-radius: 5px;
 }
+
+.movies_form_select-sort{
+  width: 100%;
+  /* max-width: 650px; */
+  padding: 10px 10px;
+  display: block;
+  /* display: inline-block; */
+  /* margin: 30px; */
+  margin-bottom: 25px;
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 0 7px 5px #248ab9;
+  border: none;
+  border-radius: 5px;
+}
 .movies_form_select:hover {
+  box-shadow: 0 0 13px 10px #248ab9;
+}
+.movies_form_select-sort:hover{
   box-shadow: 0 0 13px 10px #248ab9;
 }
 

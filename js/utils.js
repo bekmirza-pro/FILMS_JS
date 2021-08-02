@@ -1,6 +1,6 @@
 
 const makeElament = (selector) => document.querySelector(selector);
-const createDOM = (elament) => document.createElement(elament);
+const createDOM = (element) => document.createElement(element);
 
 
 
