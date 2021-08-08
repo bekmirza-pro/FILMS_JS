@@ -23,7 +23,6 @@
                     Janrlar bo'yicha qidiruv
                     <select class="movies_form_select" name="movies_genres">
                         <option value="All">All</option>
-                        
                     </select>
                 </label>
                 <label class="movies-form-label">
@@ -41,15 +40,40 @@
                     Qidirish
                 </button>
             </form>
+            <ul class="movies_list"> </ul>
 
-            <ul class="movies_list">
-               
-            </ul>
+            <!-- MODALS------------------------ -->
+
+            <div class="modal ">
+                <div class="modal_inner">
+                    <p class="overview">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequuntur,
+                        aspernatur.</p>
+                   <div class="box">
+                    <time class="release_date">15263789</time>
+                    <ul class="genres_list">
+                    </ul>
+                   </div>
+                    <button class="modal_close_btn">&times;</button>
+                </div>
+            </div>
+
+            <!-- Templates ------------------- -->
+
+            <template class="movies_template">
+                <li class="movies_item">
+                    <p class="id">23456</p>
+                    <h2 class="movies_heading">Shazam</h2>
+                    <img class="film_img" src="https://image.tmdb.org/t/p/w500/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg"
+                        alt="Marvel" width="300" height="400">
+
+                        <button class="movie_btn" type="button">More information</button>
+                </li>
+            </template>
         </div>
     </section>
 
-    <script src="./js/films.js"></script>
     <script src="./js/utils.js"></script>
+    <script src="./js/films.js"></script>
     <script src="./js/main.js"></script>
 </body>
 
